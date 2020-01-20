@@ -20,3 +20,5 @@ Route::fallback(function(){
 Route::post('/login', 'UserController@Login');
 
 Route::get('/user/{id}', 'UserController@UserAccount');
+
+Route::get('/dailyEvent', 'EventController@DailyEvent');
