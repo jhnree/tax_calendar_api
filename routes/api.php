@@ -31,3 +31,4 @@ Route::post('/login', 'UserController@Login');
 Route::post('/all-user', 'UserController@AllUser');
 
 Route::post('/notification/seen', 'EventController@NotificationSeen');
+    
