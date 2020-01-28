@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::fallback(function(){
-    abort(404);
-});
 
-Route::post('/login', 'UserController@Login');
-
-Route::get('/user/{id}', 'UserController@UserAccount');
-
-Route::get('/dailyEvent', 'EventController@DailyEvent');
+// Route::post('/insertEvent', 'EventController@addEvent');
 
 
+
+
+Route::get('/test', 'TestController@test');
+
+Route::get('/qwe', 'TestController@getAll');
+
+Route::post('/insert-event-date', 'TestController@insertEventDate');
+
+?>
