@@ -62,4 +62,27 @@ class UserController extends Controller
         }
         // return $request->all();
     }
+
+    public function Hash($data){
+        try{
+            return Hash::Make($data);
+        }
+        catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function AllUser(Request $request){
+        try{
+            $Users = User::all();
+            foreach($Users as $user){
+                if(Hash::check($user->id, $request->hashed)){
+                    return $user;
+                }
+            }
+            return `User doesn't exist`;
+        } catch(Exception $e){
+            return $e;
+        }
+    }
 }
