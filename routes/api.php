@@ -26,9 +26,10 @@ Route::get('/user-event-notification/{userID}', 'EventController@UserEventNotifi
 
 Route::get('/hash/{data}', 'UserController@Hash');
 
+Route::get('/upcoming-deadline', 'EventController@UpcomingDeadline');
+
 Route::post('/login', 'UserController@Login');
 
 Route::post('/all-user', 'UserController@AllUser');
 
 Route::post('/notification/seen', 'EventController@NotificationSeen');
-    

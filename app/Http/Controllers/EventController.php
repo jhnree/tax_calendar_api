@@ -7,6 +7,8 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Event;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\DB;
+
 class EventController extends Controller
 {
     //
@@ -63,6 +65,55 @@ class EventController extends Controller
             dd($seen);
             return $seen;
         } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+    public function UpcomingDeadline(){
+        try{
+
+            $sevenDays = date('Y-m-d', strtotime('+7 days'));
+            $threeDays = date('Y-m-d', strtotime('+3 days'));
+            $oneDay = date('Y-m-d', strtotime('+1 days'));
+
+            $withinOneDay = DB::table('txc_tbl_calendar_events_date as event_date')
+                                ->Join('txc_tbl_calendar_events_list as event_list', 'event_list.calendar_events_date_id', '=', 'event_date.id')
+                                ->where('event_date.event_deadline', '=', $oneDay)
+                                ->whereNull(['event_list.deleted_at'])
+                                ->get();
+
+            $withinThreeDays = DB::table('txc_tbl_calendar_events_date as event_date')
+                                ->Join('txc_tbl_calendar_events_list as event_list', 'event_list.calendar_events_date_id', '=', 'event_date.id')
+                                ->where('event_date.event_deadline', '=', $threeDays)
+                                ->whereNull(['event_list.deleted_at'])
+                                ->get();
+
+            $withinSevenDays = DB::table('txc_tbl_calendar_events_date as event_date')
+                                ->Join('txc_tbl_calendar_events_list as event_list', 'event_list.calendar_events_date_id', '=', 'event_date.id')
+                                ->where('event_date.event_deadline', '=', $sevenDays)
+                                ->whereNull(['event_list.deleted_at'])
+                                ->get();
+
+            $upcomingDeadlines = [];
+
+            if($withinOneDay){
+
+                $upcomingDeadlines[0] = $withinOneDay;
+
+            }
+            if($withinThreeDays){
+
+                $upcomingDeadlines[1] = $withinThreeDays;
+            }
+            if($withinSevenDays){
+
+                $upcomingDeadlines[2] = $withinSevenDays;
+
+            }
+
+            return count($upcomingDeadlines) > 0 ? $upcomingDeadlines : 0;
+        }
+        catch(Exception $e){
             return $e;
         }
     }
