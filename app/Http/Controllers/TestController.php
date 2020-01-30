@@ -6,27 +6,17 @@ use Illuminate\Http\Request;
 use App\EventsList;
 use App\EventsDate;
 use Carbon\Carbon;
+use DB;
 class TestController extends Controller
 {
     public function insertEventDate(Request $request)
     {
-        // $eventsDate = new EventsDate([
-        //     'event_deadline' => $request->eventDate,
-        //     'created_by' => 1
-        // ]);
-
         $getEventDate = $request->eventDate;
-        dd($getEventDate);
         $eventsDate = new EventsDate;
         $eventsDate->event_deadline = $getEventDate;
         $eventsDate->created_by = 1;
-        if(EventsDate::select('event_deadline')->where('event_deadline', $getEventDate)->exists()){
-            return 'date exists';
-        }else{
-            return 'date not exists';
-            // $eventsDate->save();
-        }
 
+        $eventsDate->save();
 
         $eventsList = new EventsList([
            'calendar_events_date_id' => $eventsDate->id,
@@ -41,9 +31,17 @@ class TestController extends Controller
         return response()->json('Successfully Inserted');
     }
 
-    public function getAll()
+    public function getAllEventList()
     {
-        $event = EventsList::all();
-        return json_decode($event);
+        $eventList = EventsList::all();
+        return $eventList;
     }
+
+    public function getAllEventDate()
+    {
+        // $eventListDate = DB::table('txc_tbl_calendar_events_date')->select('event_deadline')->get();
+        $eventListDate = EventsDate::all();
+        return $eventListDate;
+    }
+
 }

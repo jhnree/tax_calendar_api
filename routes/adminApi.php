@@ -25,4 +25,8 @@ Route::get('/qwe', 'TestController@getAll');
 
 Route::post('/insert-event-date', 'TestController@insertEventDate');
 
+Route::get('/get-event-date', 'TestController@getAllEventDate');
+
+Route::get('/get-event-list', 'TestController@getAllEventList');
+
 ?>
